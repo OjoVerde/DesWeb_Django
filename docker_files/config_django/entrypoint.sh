@@ -56,7 +56,7 @@ except Exception as e:
 # 3. Ejecutar initdb.sh solo si el esquema NO existe
 if [ "$AUTH_USER_TABLE_EXISTS" = "False" ]; then
     echo "El la tabla 'auth_user' no existe. Ejecutando inicialización (initdb.sh)..."
-    ./initdb.sh
+    /usr/local/bin/initdb.sh
 else
     echo "La tabla 'auth_user' ya existe. Saltando inicialización de la base de datos."
 fi

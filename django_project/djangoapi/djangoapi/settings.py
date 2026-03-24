@@ -76,6 +76,8 @@ INSTALLED_APPS = [
     #add all your django apps here
     'drf_spectacular',
     #'guardian',
+    'core',
+    'app_conservacion'
 ]
 
 MIDDLEWARE = [

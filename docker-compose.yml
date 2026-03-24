@@ -67,7 +67,7 @@ services:
         - GROUP_ID=${DJANGOAPI_GROUP_ID}
         - USERNAME=${DJANGOAPI_USERNAME}
 
-    command: python manage.py runserver 8000
+    command: python djangoapi/manage.py runserver 0.0.0.0:8000
     volumes:
       - ./django_project:/usr/src/app:Z
       - ./workspace:/workspace

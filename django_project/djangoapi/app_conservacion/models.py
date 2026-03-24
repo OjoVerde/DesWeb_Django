@@ -10,7 +10,7 @@ class ZonaConservacion(models.Model):
     geom = models.PolygonField(srid=4326, null=True, blank=True)
 
     class Meta:
-        db_table = '"Eval_01"."zonas_conservacion"'
+        db_table = '"eval_01"."zonas_conservacion"'
         managed = False
 
 
@@ -23,7 +23,7 @@ class RedCanal(models.Model):
     geom = models.LineStringField(srid=4326, null=True, blank=True)
 
     class Meta:
-        db_table = '"Eval_01"."red_canales"'
+        db_table = '"eval_01"."red_canales"'
         managed = False
 
 
@@ -36,5 +36,5 @@ class EstacionMonitoreo(models.Model):
     geom = models.PointField(srid=4326, null=True, blank=True)
 
     class Meta:
-        db_table = '"Eval_01"."estaciones_monitoreo"'
+        db_table = '"eval_01"."estaciones_monitoreo"'
         managed = False
