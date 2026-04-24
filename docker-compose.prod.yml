@@ -73,7 +73,7 @@ services:
       - ./django_project:/usr/src/app:Z
       - ./workspace:/workspace
     ports:
-      - "${DEVELOP_DOCKER_DJANGO_API_FORWARDED_PORT}:8000"
+      - "${GEOMATICA_UPV_DJANGO_API_FORWARDED_PORT}:8000"
       #puerto para depuración remota, al poner djangoapi.settings.REMOTE_DEBUG = True
       - 6789:6789
     env_file:
