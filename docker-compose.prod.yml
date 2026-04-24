@@ -59,7 +59,7 @@ services:
   #     - postgis
       
   djangoapi:
-    restart: "allways"
+    restart: "always"
     #the folder of the Django project
     build: 
       context: docker_files/config_django
