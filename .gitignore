@@ -1,3 +1,4 @@
 docker_files/data
 /.env
 /.env.dev
+/.env.prod
