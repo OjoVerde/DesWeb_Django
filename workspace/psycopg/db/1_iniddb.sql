@@ -2,9 +2,6 @@ BEGIN;
     -- Creación de la extensión PostGIS
     CREATE EXTENSION IF NOT EXISTS postgis;
 
-    CREATE SCHEMA IF NOT EXISTS Eval_01;
-    SET search_path TO Eval_01, public;
-
     -- Tabla 1: Estaciones de Monitoreo (Puntos)
     -- Representa ubicaciones fijas donde se recolectan datos ambientales.
     CREATE TABLE estaciones_monitoreo (
@@ -14,7 +11,7 @@ BEGIN;
         fecha_instalacion DATE,
         estado_operativo BOOLEAN DEFAULT TRUE,
         altitud_msnm NUMERIC(10, 2),
-        geom GEOMETRY(Point, 4326)
+        geom GEOMETRY(Point, 25830)
     );
 
     -- Tabla 2: Red de Canales (Líneas)
@@ -24,9 +21,9 @@ BEGIN;
         codigo_inventario VARCHAR(20) UNIQUE,
         material_construccion VARCHAR(50),
         capacidad_caudal NUMERIC(12, 3),
-        longitud_km NUMERIC(10, 2),
-        ultima_mantenimiento TIMESTAMP,
-        geom GEOMETRY(LineString, 4326)
+        longitud_m NUMERIC(10, 2),
+        ultimo_mantenimiento TIMESTAMP,
+        geom GEOMETRY(LineString, 25830)
     );
 
     -- Tabla 3: Zonas de Conservación (Polígonos)
@@ -38,7 +35,7 @@ BEGIN;
         entidad_responsable VARCHAR(100),
         area_hectareas NUMERIC(15, 2),
         fecha_declaracion DATE,
-        geom GEOMETRY(Polygon, 4326)
+        geom GEOMETRY(Polygon, 25830)
     );
 
     -- Índices espaciales para optimizar consultas

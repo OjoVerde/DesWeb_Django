@@ -59,8 +59,7 @@ def main():
         'codigo_inventario'    : 'CAN-N01',
         'material_construccion': 'Hormigon',
         'capacidad_caudal'     : 12.500,
-        'longitud_km'          : 3.20,
-        'ultima_mantenimiento' : '2023-04-10 08:00:00',
+        'ultimo_mantenimiento' : '2023-04-10 08:00:00',
         'geom': 'LINESTRING(-4.00 41.05, -3.80 41.05, -3.60 41.05)'
     })
     mostrar("INSERT canal 1 — tramo horizontal norte", r1)
@@ -72,8 +71,7 @@ def main():
         'codigo_inventario'    : 'CAN-V01',
         'material_construccion': 'PVC',
         'capacidad_caudal'     : 5.000,
-        'longitud_km'          : 1.80,
-        'ultima_mantenimiento' : '2024-01-22 10:30:00',
+        'ultimo_mantenimiento' : '2024-01-22 10:30:00',
         'geom': 'LINESTRING(-3.10 40.60, -3.10 40.75)'
     })
     mostrar("INSERT canal 2 — tramo vertical este", r2)
@@ -85,8 +83,7 @@ def main():
         'codigo_inventario'    : 'CAN-D01',
         'material_construccion': 'Acero',
         'capacidad_caudal'     : 28.750,
-        'longitud_km'          : 5.60,
-        'ultima_mantenimiento' : '2022-09-15 07:00:00',
+        'ultimo_mantenimiento' : '2022-09-15 07:00:00',
         'geom': 'LINESTRING(-2.50 39.50, -2.30 39.70, -2.10 39.90)'
     })
     mostrar("INSERT canal 3 — tramo diagonal sur", r3)
@@ -105,8 +102,7 @@ def main():
         'codigo_inventario'    : 'CAN-CRUCE01',
         'material_construccion': 'Hierro',
         'capacidad_caudal'     : 7.000,
-        'longitud_km'          : 1.00,
-        'ultima_mantenimiento' : '2024-02-01 09:00:00',
+        'ultimo_mantenimiento' : '2024-02-01 09:00:00',
         'geom': 'LINESTRING(-3.80 41.00, -3.80 41.10)'
     })
     mostrar("INSERT rechazado — cruza perpendicularmente canal 1", r_rej1)
@@ -116,8 +112,7 @@ def main():
         'codigo_inventario'    : 'CAN-DUP01',
         'material_construccion': 'PVC',
         'capacidad_caudal'     : 5.000,
-        'longitud_km'          : 1.80,
-        'ultima_mantenimiento' : '2024-01-22 10:30:00',
+        'ultimo_mantenimiento' : '2024-01-22 10:30:00',
         'geom': 'LINESTRING(-3.10 40.60, -3.10 40.75)'
     })
     mostrar("INSERT rechazado — duplicado exacto del canal 2", r_rej2)
@@ -128,8 +123,7 @@ def main():
         'codigo_inventario'    : 'CAN-INVALIDO',
         'material_construccion': 'Madera',
         'capacidad_caudal'     : 1.000,
-        'longitud_km'          : 0.00,
-        'ultima_mantenimiento' : '2024-03-01 00:00:00',
+        'ultimo_mantenimiento' : '2024-03-01 00:00:00',
         'geom': 'LINESTRING(0.0 0.0)'  # línea degenerada: solo un punto
     })
     mostrar("INSERT rechazado — LineString degenerada (1 solo punto)", r_rej3)
@@ -153,8 +147,7 @@ def main():
         'codigo_inventario'    : 'CAN-WKTERR',
         'material_construccion': 'Hormigon',
         'capacidad_caudal'     : 9.000,
-        'longitud_km'          : 2.00,
-        'ultima_mantenimiento' : '2024-04-01 00:00:00',
+        'ultimo_mantenimiento' : '2024-04-01 00:00:00',
         'geom': 'POLYGON((-3.00 40.00, -2.80 40.00, -2.80 40.10, -3.00 40.10, -3.00 40.00))'
     })
     mostrar("INSERT erróneo — WKT es POLYGON en columna LINESTRING", r_err2)
@@ -164,8 +157,7 @@ def main():
         'codigo_inventario'    : 'CAN-NUMERR',
         'material_construccion': 'PVC',
         'capacidad_caudal'     : 'mucho',   # debería ser numérico
-        'longitud_km'          : 1.50,
-        'ultima_mantenimiento' : '2024-05-01 00:00:00',
+        'ultimo_mantenimiento' : '2024-05-01 00:00:00',
         'geom': 'LINESTRING(-1.00 38.00, -0.80 38.20)'
     })
     mostrar("INSERT erróneo — capacidad_caudal no es número", r_err3)
@@ -183,7 +175,6 @@ def main():
             'id'                   : id1,
             'material_construccion': 'Hormigon Pretensado',
             'capacidad_caudal'     : 15.000,
-            'longitud_km'          : 3.50
         })
         mostrar(f"UPDATE atributos — id={id1}", r_upd1)
 
@@ -212,7 +203,6 @@ def main():
     # Actualizar un ID inexistente.
     r_upd_rej2 = c.update({
         'id'           : 999999,
-        'longitud_km'  : 99.99
     })
     mostrar("UPDATE rechazado — id=999999 no existe", r_upd_rej2)
 

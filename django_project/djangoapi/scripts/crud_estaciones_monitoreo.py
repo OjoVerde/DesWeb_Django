@@ -39,8 +39,8 @@ class EstacionMonitoreoCRUD:
             cur.execute(
                 """
                 SELECT
-                    public.ST_AsText(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 4326), 0.0001)),
-                    public.ST_IsValid(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 4326), 0.0001))
+                    public.ST_AsText(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 25830), 0.0001)),
+                    public.ST_IsValid(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 25830), 0.0001))
                 """,
                 [wkt, wkt]
             )
@@ -64,8 +64,8 @@ class EstacionMonitoreoCRUD:
             cur.execute(
                 """
                 SELECT EXISTS(
-                    SELECT 1 FROM eval_01.zonas_conservacion
-                    WHERE public.ST_Within(public.ST_GeomFromText(%s, 4326), geom)
+                    SELECT 1 FROM zonas_conservacion
+                    WHERE public.ST_Within(public.ST_GeomFromText(%s, 25830), geom)
                 )
                 """,
                 [wkt]
@@ -82,7 +82,7 @@ class EstacionMonitoreoCRUD:
 
         Parámetros esperados en data:
             nombre            (str)       – obligatorio
-            geom              (str, WKT)  – obligatorio, Point SRID 4326
+            geom              (str, WKT)  – obligatorio, Point SRID 25830
             tipo_sensor       (str)       – opcional
             fecha_instalacion (str)       – opcional, formato YYYY-MM-DD
             estado_operativo  (bool)      – opcional, default True
@@ -112,7 +112,7 @@ class EstacionMonitoreoCRUD:
                 fecha_instalacion=data.get('fecha_instalacion'),
                 estado_operativo=data.get('estado_operativo', True),
                 altitud_msnm=data.get('altitud_msnm'),
-                geom=GEOSGeometry(snapped_wkt, srid=4326)
+                geom=GEOSGeometry(snapped_wkt, srid=25830)
             )
             estacion.save()
 
@@ -154,7 +154,7 @@ class EstacionMonitoreoCRUD:
                         "message": "Operación rechazada: el punto actualizado no está dentro de ninguna zona de conservación.",
                         "data": None
                     }
-                estacion.geom = GEOSGeometry(snapped_wkt, srid=4326)
+                estacion.geom = GEOSGeometry(snapped_wkt, srid=25830)
 
             for field in ['nombre', 'tipo_sensor', 'fecha_instalacion',
                           'estado_operativo', 'altitud_msnm']:

@@ -32,7 +32,7 @@ class RedCanales():
         if exclude_id is not None:
             sql = """
                 SELECT EXISTS(
-                    SELECT 1 FROM Eval_01.red_canales
+                    SELECT 1 FROM red_canales
                     WHERE ST_Intersects(geom, ST_GeomFromText(%s, %s))
                       AND id != %s
                 )
@@ -41,7 +41,7 @@ class RedCanales():
         else:
             sql = """
                 SELECT EXISTS(
-                    SELECT 1 FROM Eval_01.red_canales
+                    SELECT 1 FROM red_canales
                     WHERE ST_Intersects(geom, ST_GeomFromText(%s, %s))
                 )
             """
@@ -56,7 +56,7 @@ class RedCanales():
         """
         params: {
             'codigo_inventario', 'material_construccion', 'capacidad_caudal',
-            'longitud_km', 'ultima_mantenimiento', 'geom'  (WKT LineString)
+            'longitud_m', 'ultimo_mantenimiento', 'geom'  (WKT LineString)
         }
         """
         try:
@@ -78,9 +78,9 @@ class RedCanales():
                 }
 
             sql = """
-                INSERT INTO Eval_01.red_canales
+                INSERT INTO red_canales
                     (codigo_inventario, material_construccion, capacidad_caudal,
-                     longitud_km, ultima_mantenimiento, geom)
+                     longitud_m, ultimo_mantenimiento, geom)
                 VALUES (%s, %s, %s, %s, %s, ST_GeomFromText(%s, %s))
                 RETURNING id;
             """
@@ -88,8 +88,8 @@ class RedCanales():
                 params.get('codigo_inventario'),
                 params.get('material_construccion'),
                 params.get('capacidad_caudal'),
-                params.get('longitud_km'),
-                params.get('ultima_mantenimiento'),
+                params.get('longitud_m'),
+                params.get('ultimo_mantenimiento'),
                 snapped_wkt,
                 EPSG_CODE
             ])
@@ -109,14 +109,14 @@ class RedCanales():
         params: {
             'id',
             y cualquier combinación de: 'codigo_inventario', 'material_construccion',
-            'capacidad_caudal', 'longitud_km', 'ultima_mantenimiento', 'geom'
+            'capacidad_caudal', 'longitud_m', 'ultimo_mantenimiento', 'geom'
         }
         """
         try:
             record_id = params['id']
             updatable = {
                 'codigo_inventario', 'material_construccion', 'capacidad_caudal',
-                'longitud_km', 'ultima_mantenimiento'
+                'longitud_m', 'ultimo_mantenimiento'
             }
             fields = {k: v for k, v in params.items() if k in updatable}
             snapped_wkt = None
@@ -151,7 +151,7 @@ class RedCanales():
                 values += [snapped_wkt, EPSG_CODE]
 
             values.append(record_id)
-            sql = f"UPDATE Eval_01.red_canales SET {', '.join(set_clauses)} WHERE id = %s RETURNING id;"
+            sql = f"UPDATE red_canales SET {', '.join(set_clauses)} WHERE id = %s RETURNING id;"
 
             self.cur.execute(sql, values)
             self.conn.commit()
@@ -171,7 +171,7 @@ class RedCanales():
         """params: {'id': <int>}"""
         try:
             record_id = params['id']
-            sql = "DELETE FROM Eval_01.red_canales WHERE id = %s RETURNING id;"
+            sql = "DELETE FROM red_canales WHERE id = %s RETURNING id;"
             self.cur.execute(sql, [record_id])
             self.conn.commit()
             deleted = self.cur.fetchone()
@@ -192,15 +192,15 @@ class RedCanales():
             if 'id' in params:
                 sql = """
                     SELECT id, codigo_inventario, material_construccion, capacidad_caudal,
-                           longitud_km, ultima_mantenimiento, ST_AsText(geom) AS wkt
-                    FROM Eval_01.red_canales WHERE id = %s;
+                           longitud_m, ultimo_mantenimiento, ST_AsText(geom) AS wkt
+                    FROM red_canales WHERE id = %s;
                 """
                 self.cur.execute(sql, [params['id']])
             else:
                 sql = """
                     SELECT id, codigo_inventario, material_construccion, capacidad_caudal,
-                           longitud_km, ultima_mantenimiento, ST_AsText(geom) AS wkt
-                    FROM Eval_01.red_canales;
+                           longitud_m, ultimo_mantenimiento, ST_AsText(geom) AS wkt
+                    FROM red_canales;
                 """
                 self.cur.execute(sql)
             rows = self.cur.fetchall()
@@ -219,15 +219,15 @@ class RedCanales():
                 if 'id' in params:
                     sql = """
                         SELECT id, codigo_inventario, material_construccion, capacidad_caudal,
-                               longitud_km, ultima_mantenimiento, ST_AsText(geom) AS wkt
-                        FROM Eval_01.red_canales WHERE id = %s;
+                               longitud_m, ultimo_mantenimiento, ST_AsText(geom) AS wkt
+                        FROM red_canales WHERE id = %s;
                     """
                     dcur.execute(sql, [params['id']])
                 else:
                     sql = """
                         SELECT id, codigo_inventario, material_construccion, capacidad_caudal,
-                               longitud_km, ultima_mantenimiento, ST_AsText(geom) AS wkt
-                        FROM Eval_01.red_canales;
+                               longitud_m, ultimo_mantenimiento, ST_AsText(geom) AS wkt
+                        FROM red_canales;
                     """
                     dcur.execute(sql)
                 rows = dcur.fetchall()

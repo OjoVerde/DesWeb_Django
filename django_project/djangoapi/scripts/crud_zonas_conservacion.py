@@ -38,8 +38,8 @@ class ZonaConservacionCRUD:
             cur.execute(
                 """
                 SELECT
-                    public.ST_AsText(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 4326), 0.0001)),
-                    public.ST_IsValid(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 4326), 0.0001))
+                    public.ST_AsText(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 25830), 0.0001)),
+                    public.ST_IsValid(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 25830), 0.0001))
                 """,
                 [wkt, wkt]
             )
@@ -64,9 +64,9 @@ class ZonaConservacionCRUD:
                 cur.execute(
                     """
                     SELECT EXISTS(
-                        SELECT 1 FROM eval_01.zonas_conservacion
+                        SELECT 1 FROM zonas_conservacion
                         WHERE id != %s
-                          AND public.ST_Intersects(geom, public.ST_GeomFromText(%s, 4326))
+                          AND public.ST_Intersects(geom, public.ST_GeomFromText(%s, 25830))
                     )
                     """,
                     [exclude_id, wkt]
@@ -75,8 +75,8 @@ class ZonaConservacionCRUD:
                 cur.execute(
                     """
                     SELECT EXISTS(
-                        SELECT 1 FROM eval_01.zonas_conservacion
-                        WHERE public.ST_Intersects(geom, public.ST_GeomFromText(%s, 4326))
+                        SELECT 1 FROM zonas_conservacion
+                        WHERE public.ST_Intersects(geom, public.ST_GeomFromText(%s, 25830))
                     )
                     """,
                     [wkt]
@@ -93,7 +93,7 @@ class ZonaConservacionCRUD:
 
         Parámetros esperados en data:
             nombre_area (str)           – obligatorio
-            geom        (str, WKT)      – obligatorio, Polygon SRID 4326
+            geom        (str, WKT)      – obligatorio, Polygon SRID 25830
             categoria_proteccion (str)  – opcional
             entidad_responsable  (str)  – opcional
             area_hectareas       (num)  – opcional
@@ -116,14 +116,15 @@ class ZonaConservacionCRUD:
                     "message": "Operación rechazada: la geometría intersecta con una zona de conservación existente.",
                     "data": None
                 }
-
+            geom = GEOSGeometry(snapped_wkt, srid=25830)
+            area = geom.area / 10000
             zona = ZonaConservacion(
                 nombre_area=data['nombre_area'],
                 categoria_proteccion=data.get('categoria_proteccion'),
                 entidad_responsable=data.get('entidad_responsable'),
-                area_hectareas=data.get('area_hectareas'),
+                area_hectareas=area,
                 fecha_declaracion=data.get('fecha_declaracion'),
-                geom=GEOSGeometry(snapped_wkt, srid=4326)
+                geom=geom
             )
             zona.save()
 
@@ -165,10 +166,11 @@ class ZonaConservacionCRUD:
                         "message": "Operación rechazada: la geometría actualizada intersecta con otra zona existente.",
                         "data": None
                     }
-                zona.geom = GEOSGeometry(snapped_wkt, srid=4326)
+                zona.geom = GEOSGeometry(snapped_wkt, srid=25830)
+                zona.area_hectareas = zona.geom.area / 10000
 
-            for field in ['nombre_area', 'categoria_proteccion', 'entidad_responsable',
-                          'area_hectareas', 'fecha_declaracion']:
+            campos_permitidos = ['nombre_area', 'categoria_proteccion', 'entidad_responsable', 'fecha_declaracion']
+            for field in campos_permitidos:
                 if field in data:
                     setattr(zona, field, data[field])
 

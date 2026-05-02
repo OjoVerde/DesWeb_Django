@@ -38,8 +38,7 @@ insert_canal = canales.insert({
         'codigo_inventario': 'CAN-001',
         'material_construccion': 'Hormigon',
         'capacidad_caudal': 15.750,
-        'longitud_km': 2.30,
-        'ultima_mantenimiento': '2024-03-10 08:00:00',
+        'ultimo_mantenimiento': '2024-03-10 08:00:00',
         'geom': 'LINESTRING(-3.70 40.41, -3.68 40.43, -3.65 40.45)'
     })
 print(insert_canal)
@@ -48,8 +47,7 @@ insert_canal_dup = canales.insert({
         'codigo_inventario': 'CAN-002',
         'material_construccion': 'PVC',
         'capacidad_caudal': 8.000,
-        'longitud_km': 1.10,
-        'ultima_mantenimiento': '2024-05-01 09:00:00',
+        'ultimo_mantenimiento': '2024-05-01 09:00:00',
         'geom': 'LINESTRING(-3.69 40.40, -3.67 40.44)'
     })
 print(insert_canal_dup)

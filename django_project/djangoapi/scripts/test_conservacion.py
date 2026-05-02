@@ -128,8 +128,7 @@ def run():
         "codigo_inventario": "CAN-001",
         "material_construccion": "Hormigón",
         "capacidad_caudal": 12.500,
-        "longitud_km": 3.40,
-        "ultima_mantenimiento": "2023-09-01T08:00:00",
+        "ultimo_mantenimiento": "2023-09-01T08:00:00",
         "geom": "LINESTRING(-2.58 39.50, -2.45 39.50)"
     })
     _print_resultado("INSERT Canal CAN-001 (horizontal norte)", r)
@@ -140,8 +139,7 @@ def run():
         "codigo_inventario": "CAN-002",
         "material_construccion": "PVC",
         "capacidad_caudal": 5.200,
-        "longitud_km": 2.10,
-        "ultima_mantenimiento": "2024-01-15T10:30:00",
+        "ultimo_mantenimiento": "2024-01-15T10:30:00",
         "geom": "LINESTRING(-2.58 39.10, -2.45 39.10)"
     })
     _print_resultado("INSERT Canal CAN-002 (horizontal sur)", r)
@@ -172,7 +170,6 @@ def run():
     r = canal_crud.update({
         "id": ids_canales[0],
         "material_construccion": "Acero ACTUALIZADO",
-        "longitud_km": 3.80
     })
     _print_resultado(f"UPDATE campos alfanuméricos canal id={ids_canales[0]}", r)
 

@@ -38,8 +38,8 @@ class RedCanalCRUD:
             cur.execute(
                 """
                 SELECT
-                    public.ST_AsText(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 4326), 0.0001)),
-                    public.ST_IsValid(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 4326), 0.0001))
+                    public.ST_AsText(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 25830), 0.0001)),
+                    public.ST_IsValid(public.ST_SnapToGrid(public.ST_GeomFromText(%s, 25830), 0.0001))
                 """,
                 [wkt, wkt]
             )
@@ -64,9 +64,9 @@ class RedCanalCRUD:
                 cur.execute(
                     """
                     SELECT EXISTS(
-                        SELECT 1 FROM eval_01.red_canales
+                        SELECT 1 FROM red_canales
                         WHERE id != %s
-                          AND public.ST_Intersects(geom, public.ST_GeomFromText(%s, 4326))
+                          AND public.ST_Intersects(geom, public.ST_GeomFromText(%s, 25830))
                     )
                     """,
                     [exclude_id, wkt]
@@ -75,8 +75,8 @@ class RedCanalCRUD:
                 cur.execute(
                     """
                     SELECT EXISTS(
-                        SELECT 1 FROM eval_01.red_canales
-                        WHERE public.ST_Intersects(geom, public.ST_GeomFromText(%s, 4326))
+                        SELECT 1 FROM red_canales
+                        WHERE public.ST_Intersects(geom, public.ST_GeomFromText(%s, 25830))
                     )
                     """,
                     [wkt]
@@ -92,12 +92,12 @@ class RedCanalCRUD:
         Inserta un nuevo RedCanal.
 
         Parámetros esperados en data:
-            geom                  (str, WKT)  – obligatorio, LineString SRID 4326
+            geom                  (str, WKT)  – obligatorio, LineString SRID 25830
             codigo_inventario     (str)        – opcional, único
             material_construccion (str)        – opcional
             capacidad_caudal      (num)        – opcional
-            longitud_km           (num)        – opcional
-            ultima_mantenimiento  (str)        – opcional, ISO datetime
+            longitud_m           (num)        – opcional
+            ultimo_mantenimiento  (str)        – opcional, ISO datetime
         """
         try:
             wkt = data.get('geom')
@@ -115,13 +115,15 @@ class RedCanalCRUD:
                     "data": None
                 }
 
+            geom = GEOSGeometry(snapped_wkt, srid=25830)
+            length_m = geom.length / 1000
             canal = RedCanal(
                 codigo_inventario=data.get('codigo_inventario'),
                 material_construccion=data.get('material_construccion'),
                 capacidad_caudal=data.get('capacidad_caudal'),
-                longitud_km=data.get('longitud_km'),
-                ultima_mantenimiento=data.get('ultima_mantenimiento'),
-                geom=GEOSGeometry(snapped_wkt, srid=4326)
+                longitud_m=length_m,
+                ultimo_mantenimiento=data.get('ultimo_mantenimiento'),
+                geom=GEOSGeometry(snapped_wkt, srid=25830)
             )
             canal.save()
 
@@ -163,10 +165,11 @@ class RedCanalCRUD:
                         "message": "Operación rechazada: la geometría actualizada intersecta con otro canal existente.",
                         "data": None
                     }
-                canal.geom = GEOSGeometry(snapped_wkt, srid=4326)
-
-            for field in ['codigo_inventario', 'material_construccion', 'capacidad_caudal',
-                          'longitud_km', 'ultima_mantenimiento']:
+                canal.geom = GEOSGeometry(snapped_wkt, srid=25830)
+                canal.longitud_m = canal.geom.length
+            campos_permitidos = ['codigo_inventario', 'material_construccion', 'capacidad_caudal',
+                                'ultimo_mantenimiento']
+            for field in campos_permitidos:
                 if field in data:
                     setattr(canal, field, data[field])
 

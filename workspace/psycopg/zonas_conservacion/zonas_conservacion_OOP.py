@@ -33,7 +33,7 @@ class ZonasConservacion():
         if exclude_id is not None:
             sql = """
                 SELECT EXISTS(
-                    SELECT 1 FROM Eval_01.zonas_conservacion
+                    SELECT 1 FROM zonas_conservacion
                     WHERE ST_Intersects(geom, ST_GeomFromText(%s, %s))
                       AND id != %s
                 )
@@ -42,7 +42,7 @@ class ZonasConservacion():
         else:
             sql = """
                 SELECT EXISTS(
-                    SELECT 1 FROM Eval_01.zonas_conservacion
+                    SELECT 1 FROM zonas_conservacion
                     WHERE ST_Intersects(geom, ST_GeomFromText(%s, %s))
                 )
             """
@@ -79,7 +79,7 @@ class ZonasConservacion():
                 }
 
             sql = """
-                INSERT INTO Eval_01.zonas_conservacion
+                INSERT INTO zonas_conservacion
                     (nombre_area, categoria_proteccion, entidad_responsable,
                      area_hectareas, fecha_declaracion, geom)
                 VALUES (%s, %s, %s, %s, %s, ST_GeomFromText(%s, %s))
@@ -152,7 +152,7 @@ class ZonasConservacion():
                 values += [snapped_wkt, EPSG_CODE]
 
             values.append(record_id)
-            sql = f"UPDATE Eval_01.zonas_conservacion SET {', '.join(set_clauses)} WHERE id = %s RETURNING id;"
+            sql = f"UPDATE zonas_conservacion SET {', '.join(set_clauses)} WHERE id = %s RETURNING id;"
 
             self.cur.execute(sql, values)
             self.conn.commit()
@@ -172,7 +172,7 @@ class ZonasConservacion():
         """params: {'id': <int>}"""
         try:
             record_id = params['id']
-            sql = "DELETE FROM Eval_01.zonas_conservacion WHERE id = %s RETURNING id;"
+            sql = "DELETE FROM zonas_conservacion WHERE id = %s RETURNING id;"
             self.cur.execute(sql, [record_id])
             self.conn.commit()
             deleted = self.cur.fetchone()
@@ -194,14 +194,14 @@ class ZonasConservacion():
                 sql = """
                     SELECT id, nombre_area, categoria_proteccion, entidad_responsable,
                            area_hectareas, fecha_declaracion, ST_AsText(geom) AS wkt
-                    FROM Eval_01.zonas_conservacion WHERE id = %s;
+                    FROM zonas_conservacion WHERE id = %s;
                 """
                 self.cur.execute(sql, [params['id']])
             else:
                 sql = """
                     SELECT id, nombre_area, categoria_proteccion, entidad_responsable,
                            area_hectareas, fecha_declaracion, ST_AsText(geom) AS wkt
-                    FROM Eval_01.zonas_conservacion;
+                    FROM zonas_conservacion;
                 """
                 self.cur.execute(sql)
             rows = self.cur.fetchall()
@@ -221,14 +221,14 @@ class ZonasConservacion():
                     sql = """
                         SELECT id, nombre_area, categoria_proteccion, entidad_responsable,
                                area_hectareas, fecha_declaracion, ST_AsText(geom) AS wkt
-                        FROM Eval_01.zonas_conservacion WHERE id = %s;
+                        FROM zonas_conservacion WHERE id = %s;
                     """
                     dcur.execute(sql, [params['id']])
                 else:
                     sql = """
                         SELECT id, nombre_area, categoria_proteccion, entidad_responsable,
                                area_hectareas, fecha_declaracion, ST_AsText(geom) AS wkt
-                        FROM Eval_01.zonas_conservacion;
+                        FROM zonas_conservacion;
                     """
                     dcur.execute(sql)
                 rows = dcur.fetchall()

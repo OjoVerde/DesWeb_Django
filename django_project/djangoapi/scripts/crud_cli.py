@@ -17,14 +17,14 @@ EJEMPLOS:
     python djangoapi/manage.py runscript crud_cli --script-args zona select id=1
 
   -- Insertar una zona
-    python manage.py runscript crud_cli --script-args zona insert \\
-        nombre_area="Reserva Norte" \\
-        categoria_proteccion="Parque Nacional" \\
-        fecha_declaracion=2010-06-15 \\
-        geom="POLYGON((-2.60 39.40,-2.40 39.40,-2.40 39.60,-2.60 39.60,-2.60 39.40))"
+python manage.py runscript crud_cli --script-args zona insert \
+    nombre_area="Reserva Norte" \
+    categoria_proteccion="Parque Nacional" \
+    fecha_declaracion=2010-06-15 \
+    geom="POLYGON((440000 4470000, 450000 4470000, 450000 4480000, 440000 4480000, 440000 4470000))"
 
   -- Insertar una linea
-    python manage.py runscript crud_cli --script-args canal insert codigo_inventario="RN-3742" material_construccion="Concreto"  capacidad_caudal=135 longitud_km = 400 ultima_mantenimiento = 2024-02-01 geom="LINESTRING(-3.7038 40.4168, 2.1734 41.3851)"
+    python manage.py runscript crud_cli --script-args canal insert codigo_inventario="RN-3742" material_construccion="Concreto"  capacidad_caudal=400 ultimo_mantenimiento=2024-02-01 geom="LINESTRING(442118.8 4474396.2, 441691.3 4473795.8)"
 
   -- Actualizar una zona
     python djangoapi/manage.py runscript crud_cli --script-args zona update \\
@@ -34,10 +34,10 @@ EJEMPLOS:
     python djangoapi/manage.py runscript crud_cli --script-args zona delete id=1
 
   -- Insertar una estación (el punto debe estar dentro de una zona existente)
-    python djangoapi/manage.py runscript crud_cli --script-args estacion insert \\
-        nombre="Estacion Alpha" tipo_sensor=Temperatura \\
-        fecha_instalacion=2021-05-10 altitud_msnm=320.5 \\
-        geom="POINT(-2.50 39.50)"
+python manage.py runscript crud_cli --script-args estacion insert \
+    nombre="Estacion Alpha" tipo_sensor=Temperatura \
+    fecha_instalacion=2021-05-10 altitud_msnm=320.5 \
+    geom="POINT(442118.8 4474396.2)"
 """
 
 import sys
