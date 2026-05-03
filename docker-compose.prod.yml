@@ -68,7 +68,7 @@ services:
         - GROUP_ID=${DJANGOAPI_GROUP_ID}
         - USERNAME=${DJANGOAPI_USERNAME}
 
-    command: gunicorn djangoapi.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn django_project.djangoapi.wsgi:application --bind 0.0.0.0:8000
     # command: python djangoapi/manage.py runserver 0.0.0.0:8000
     volumes:
       - ./django_project:/usr/src/app:Z
