@@ -169,7 +169,7 @@ class ZonaConservacionCRUD:
                 zona.geom = GEOSGeometry(snapped_wkt, srid=25830)
                 zona.area_hectareas = zona.geom.area / 10000
 
-            campos_permitidos = ['nombre_area', 'categoria_proteccion', 'entidad_responsable', 'fecha_declaracion']
+            campos_permitidos = ['nombre_area', 'categoria_proteccion', 'entidad_responsable', 'fecha_declaracion', 'geom']
             for field in campos_permitidos:
                 if field in data:
                     setattr(zona, field, data[field])

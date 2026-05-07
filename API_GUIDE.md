@@ -133,7 +133,7 @@ curl -s -X POST "http://localhost:8000/app_conservacion/zonas_conservacion/" \
 
 #### POST - Error por intersección (geometría que intersecta con zona existente)
 ```bash
-curl -s -X POST "http://localhost:8000/app_conservacion/zonas_conservacion/" \
+curl -s -X POST "http://localhost:8024/api/app_conservacion/zonas_conservacion/" \
   -H "Content-Type: application/json" \
   -d '{
     "nombre_area": "Zona Intersecta",
