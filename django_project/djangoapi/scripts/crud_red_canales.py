@@ -168,7 +168,7 @@ class RedCanalCRUD:
                 canal.geom = GEOSGeometry(snapped_wkt, srid=25830)
                 canal.longitud_m = canal.geom.length
             campos_permitidos = ['codigo_inventario', 'material_construccion', 'capacidad_caudal',
-                                'ultimo_mantenimiento']
+                                'ultimo_mantenimiento', 'geom']
             for field in campos_permitidos:
                 if field in data:
                     setattr(canal, field, data[field])

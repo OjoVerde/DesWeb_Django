@@ -157,7 +157,7 @@ class EstacionMonitoreoCRUD:
                 estacion.geom = GEOSGeometry(snapped_wkt, srid=25830)
 
             for field in ['nombre', 'tipo_sensor', 'fecha_instalacion',
-                          'estado_operativo', 'altitud_msnm']:
+                          'estado_operativo', 'altitud_msnm', 'geom']:
                 if field in data:
                     setattr(estacion, field, data[field])
 
